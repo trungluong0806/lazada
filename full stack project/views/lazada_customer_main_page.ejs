@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/lazada_main_page.css">
+</head>
+<body>
+    <header id="logo_and_search">
+        <div id="logo"></div>
+        <form id="search_function" action="">
+            <input id="search_bar" type="text">
+            <div id="search_container"><input id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
+        </form>
+    </header>
+    <main>
+        <div id="carousel">
+            <div id="element">
+                <nav id="catergory_box">
+                    <div class="category">Household Appliances</div>
+                    <div class="category">Electronics</div>
+                    <div class="category">Fashion</div>
+                    <div class="category">For Kids</div>
+                    <div class="category">Groceries</div>
+                    <div class="category">Sport</div>
+                    <div class="category">Automotives</div>
+                    <div class="category">Education</div>
+                    <div class="category">Entertainment</div>
+                    <div class="category">Digital</div>
+                    <div class="category">Adults</div>
+                    
+                </nav>
+                <div class="element"></div>
+            </div>
+            <nav id="carousel_nav">
+                <div class="link_container">
+                </div>
+                <div class="link_container"></div>
+                <div class="link_container"></div>
+                <div class="link_container"></div>
+            </nav>
+        </div>
+        <div id="product_container" >
+            <form id="filter"></form>
+            <div id="products">
+                <%for (let i =0; i < result.length; i++){%>
+                    <div class="grid">
+                        <div class="product_image">
+                            <img src="<%= result[i].Product_image %>" alt="">
+                        </div>
+                        <div class="product_title">
+                            <a href="<%= 'http://localhost:3500' + '/'+ result[i].Product_id %>"><%= result[i].Product_name %></a>
+                            
+                        </div>
+                        <div class="product_price">
+                            <%= result[i].Product_price %>
+                        </div>
+                    </div>
+                    
+                <%}%>
+                
+                
+            </div>
+        </div>
+        <div id="controller">
+            <div class="controller_icon">
+                <img class="icon"  src="../photo/shopping-cart.png" alt="">
+            </div>
+            <div class="controller_icon">
+                <img class="icon" src="../photo/user.png" alt="">
+            </div>
+            <div class="controller_icon">
+                <img class="icon" src="../photo/settings.png" alt="">
+            </div>
+        </div>
+    </main>
+    <script src="js/main_page.js">
+
+    </script>
+</body>
+</html>
