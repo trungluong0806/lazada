@@ -1,7 +1,15 @@
 const express = require('express');
 const app = express();
 const multer = require('multer');
-const upload = multer();
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const uri = 'mongodb+srv://trungluong0806:Lacussaber080699@cluster0.w8zcmxn.mongodb.net/test?retryWrites=true&w=majority';
@@ -10,6 +18,7 @@ const dbName = 'test';
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 app.get('/', handleIndex);
 app.get('/products/:id', handleProduct);
@@ -50,11 +59,11 @@ function handleAddForm(req, res) {
 async function handleAddProduct(req, res) {
   try {
     const { productName, productPrice, productBrand, productLocation, productCFO, productDescription } = req.body;
-    const image = req.body.image;
-
+    const imagePath = req.file.path; 
+    
     await client.connect();
     const collection = client.db(dbName).collection('product_infos');
-    const result = await collection.insertOne({ productName, productPrice, productBrand, productLocation, productCFO, productDescription, image });
+    const result = await collection.insertOne({ productName, productPrice, productBrand, productLocation, productCFO, productDescription, imagePath }); // 이미지 경로 저장
     console.log(result);
     res.redirect('/');
   } catch (err) {
@@ -63,6 +72,7 @@ async function handleAddProduct(req, res) {
     await client.close();
   }
 }
+
 
 
 async function handleViewMyProduct(req, res) {
