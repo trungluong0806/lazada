@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Products</title>
+  <link rel="stylesheet" href="/css/viewmyproduct.css">
+</head>
+<body>
+  <h1>My Products</h1>
+  <table>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Price</th>
+      <th>Product Brand</th>
+      <th>Product Location</th>
+      <th>Product CFO</th>
+      <th>Product Description</th>
+      <th>Product Image</th>
+    </tr>
+    <% products.forEach((product) => { %>
+      <tr>
+        <td><%= product.productName %></td>
+        <td><%= product.productPrice %></td>
+        <td><%= product.productBrand %></td>
+        <td><%= product.productLocation %></td>
+        <td><%= product.productCFO %></td>
+        <td><%= product.productDescription %></td>
+        <td><img src="../<%= product.imagePath %>" width="100"></td>
+      </tr>
+    <% }); %>
+  </table>
+</body>
+</html>
