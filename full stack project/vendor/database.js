@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const multer = require('multer');
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/uploads/');
@@ -9,12 +10,14 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
+
 const upload = multer({ storage: storage });
+
 const mongoose = require('mongoose');
 const uri = 'mongodb+srv://trungluong0806:Lacussaber080699@cluster0.w8zcmxn.mongodb.net/test?retryWrites=true&w=majority';
-
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('MongoDB connected!');
@@ -27,7 +30,10 @@ const productSchema = new mongoose.Schema({
   productLocation: String,
   productCFO: String,
   productDescription: String,
-  imagePath: String
+  imageOnePath: String,
+  imageTwoPath: String,
+  imageThreePath: String,
+  imageFourPath: String
 });
 
 const Product = mongoose.model('Product', productSchema);
@@ -37,11 +43,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/uploads', express.static('public/uploads'));
 
-
 app.get('/', handleIndex);
 app.get('/products/:id', handleProduct);
 app.get('/add', handleAddForm);
-app.post('/add', upload.single('image'), handleAddProduct);
+app.post('/add', upload.fields([{ name: 'imageOne' }, { name: 'imageTwo' }, { name: 'imageThree' }, { name: 'imageFour' }]), handleAddProduct);
 app.get('/viewmyproduct', handleViewMyProduct);
 
 async function handleIndex(req, res) {
@@ -69,11 +74,23 @@ function handleAddForm(req, res) {
 async function handleAddProduct(req, res) {
   try {
     const { productName, productPrice, productBrand, productLocation, productCFO, productDescription } = req.body;
-    const imagePath = req.file.path;
-    
-    const newProduct = new Product({ productName, productPrice, productBrand, productLocation, productCFO, productDescription, imagePath });
+
+    const { imageOne, imageTwo, imageThree, imageFour } = req.files;
+
+    const newProduct = new Product({
+      productName,
+      productPrice,
+      productBrand,
+      productLocation,
+      productCFO,
+      productDescription,
+      imageOnePath: imageOne[0].path,
+      imageTwoPath: imageTwo[0].path,
+      imageThreePath: imageThree[0].path,
+      imageFourPath: imageFour[0].path
+    });
+
     await newProduct.save();
-    
     res.redirect('/');
   } catch (err) {
     console.log(err.stack);
