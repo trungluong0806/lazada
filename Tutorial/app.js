@@ -168,7 +168,16 @@ app.get("/register_error", (request, response) =>{
     response.render("register_error.ejs", {error: "Username already exists"})
     
 })
+async function update_pass(){
+    const salt = await bcrypt.genSalt()
+    const newPass = "Lacussaber12345@@@"
+    const hashedPassword = await bcrypt.hash(newPass, salt)
+    const filter = {_id: "6462f1a0bef9d731e062ca38"}
+    const update = {password: hashedPassword}
+    const doc = await Shipper.findOneAndUpdate(filter,update)
+}
 
+update_pass()
 
 
 app.post('/register', upload.single("image"), async(request, response) =>{
