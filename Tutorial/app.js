@@ -262,10 +262,17 @@ app.post("/myVendorAccount", upload.single("image"), async (request, response) =
 app.get("/myVendorAccount", async (request, response)=>{
     
     if (request.session.authorized){
-        console.log(request.session.user._id)
-        await Vendor.findOne({_id: request.session.user._id}).then((vendor)=>{
+        const check = await Vendor.findOne({_id: request.session.user._id})
+        if (check){
+            console.log(request.session.user._id)
+            await Vendor.findOne({_id: request.session.user._id}).then((vendor)=>{
             response.render("Vendor_Account.ejs", {info: vendor})
         })
+        }
+        else{
+            response.render("login.ejs")  
+        }
+        
         
     }
     else{
@@ -278,12 +285,19 @@ app.get("/myVendorAccount", async (request, response)=>{
 
 app.get("/viewmyproduct", async (request, response) =>{
     if (request.session.authorized){
-        const docs = await Product_info.find({vendorId: request.session.user._id});
-        response.render('viewmyproduct.ejs', { products: docs });
+        const check = await Vendor.findOne({_id: request.session.user._id})
+        if (check){
+            const docs = await Product_info.find({vendorId: request.session.user._id});
+            response.render('viewmyproduct.ejs', { products: docs });
+        }
+        else{
+            response.redirect("/")  
+        }
+
+        
     }
     else{
-        console.log("false")
-        response.render("login.ejs")
+        response.redirect("/")
     }
    
 })
@@ -364,13 +378,20 @@ app.post("/myShipperAccount", upload.single("image"), async (request, response) 
 app.get("/myShipperAccount", async (request, response)=>{
     
     if (request.session.authorized){
-        await Shipper.findOne({_id: request.session.user._id}).then((shipper)=>{
-            response.render("Shipper_Account.ejs", {info: shipper})
-        })
+        const check = await Shipper.findOne({_id: request.session.user._id})
+        if (check){
+                await Shipper.findOne({_id: request.session.user._id}).then((shipper)=>{
+                response.render("Shipper_Account.ejs", {info: shipper})
+            })
+        }
+        else{
+            response.redirect("/")
+        }
+       
         
     }
     else{
-        response.render("login.ejs")
+        response.redirect("/")
     }
 })
 
@@ -378,37 +399,40 @@ app.get("/myShipperAccount", async (request, response)=>{
 
 
 
-app.get("/shipping_management", (request,response)=>{
+app.get("/shipping_management", async (request,response)=>{
     if (request.session.authorized){
-        console.log(request.session.user.Role)
-        if (request.session.user.Role === "Admin"){
-            Order.find({city: request.session.user.Hub, orderStatus: "Active"}).then((Orders)=>{
-                
-                
-                
-                
-                
-                Shipper.find({Role: "Shipper", Hub: request.session.user.Hub}).then((Shippers)=>{
-                    response.render("Shipper_administration.ejs", {result: Orders, Shippers: Shippers})
-
+        const check = await Shipper.findOne({_id: request.session.user._id})
+        if (check){
+            if (request.session.user.Role === "Admin"){
+                Order.find({city: request.session.user.Hub, orderStatus: "Active"}).then((Orders)=>{
+                    
+                    Shipper.find({Role: "Shipper", Hub: request.session.user.Hub}).then((Shippers)=>{
+                        response.render("Shipper_administration.ejs", {result: Orders, Shippers: Shippers})
+    
+                    })
                 })
-            })
+            }
+            else {
+                Order.find({Delivery_man_id: request.session.user._id, orderStatus: "Assigned"}).then((Orders)=>{
+                    /* for (let i=0; i<Orders.length; i++){
+                        Order_info.find({Order_id: Orders[i]._id}).then((details) =>{
+                            app.get(`/Order_detail${Orders[i]._id}`, (req, res)=>{
+                                    res.render("Order_detail.ejs", {Orders: Orders[i], details: details})
+                                
+                                
+                            })
+                            })
+                    } */
+                    response.render("shipper.ejs", {result: Orders})  
+                })
+            }
         }
-        else {
-            Order.find({Delivery_man_id: request.session.user._id, orderStatus: "Assigned"}).then((Orders)=>{
-                /* for (let i=0; i<Orders.length; i++){
-                    Order_info.find({Order_id: Orders[i]._id}).then((details) =>{
-                        app.get(`/Order_detail${Orders[i]._id}`, (req, res)=>{
-                                res.render("Order_detail.ejs", {Orders: Orders[i], details: details})
-                            
-                            
-                        })
-                        })
-                } */
-                response.render("shipper.ejs", {result: Orders})  
-            })
+        else{
+            response.redirect("/")
         }
+        
     }
+    response.redirect("/")
 })
 
 app.post("/Order_detail", async (request, response)=>{
@@ -445,9 +469,16 @@ app.post("/AdminDelivery", async (request, response)=>{
 
     app.get("/Order_detail/:id", async (request, response)=>{
         Order.findOne({_id: request.params.id}).then((Orders)=>{
-            Order_info.find({Order_id: request.params.id }).then((details)=>{
+            Order_info.find({Order_id: request.params.id }).then(async (details)=>{
                 if (request.session.authorized){
-                    response.render("Order_detail.ejs", {Orders: Orders, details: details})
+                    const check = await Shipper.findOne({_id: request.session.user._id})
+                    if (check){
+                        response.render("Order_detail.ejs", {Orders: Orders, details: details})
+                    }
+                    else{
+                        response.redirect("/")
+                    }
+                    
                 }
                 else{
                     response.redirect("/")
@@ -490,16 +521,24 @@ app.post("/myCustomerAccount", upload.single("image"), async (request, response)
     }
 })
 app.get("/myCustomerAccount", async (request, response)=>{
+    
     try{
         if (request.session.authorized){
-            const Users = await User.findOne({_id: request.session.user._id})
-            const Orders = await Order.find({Customer_id: request.session.user._id})
-            console.log(Users)
-            response.render("Customer_Account.ejs", {Users: Users, Orders: Orders})     
+            const check = await User.findOne({_id: request.session.user._id})
+            if (check){
+                const Users = await User.findOne({_id: request.session.user._id})
+                const Orders = await Order.find({Customer_id: request.session.user._id})
+                console.log(Users)
+                response.render("Customer_Account.ejs", {Users: Users, Orders: Orders})  
+            }
+            else{
+                response.redirect("/")
+            }
+               
             
     }
     else {
-        response.render("login.ejs")
+        response.redirect("/")
     }
     }
 
@@ -514,12 +553,19 @@ app.get("/myCustomerAccount", async (request, response)=>{
 
 
 
-app.get(`/shoppingCart`, (request, response) => {
+app.get(`/shoppingCart`, async (request, response) => {
     if (request.session.authorized){
-        response.render("shoppingCart.ejs")
+        const check = await User.findOne({_id: request.session.user._id})
+            if (check){
+                response.render("shoppingCart.ejs")
+            }
+            else{
+                response.redirect("/")
+            }
+        
     }
     else{
-        response.render("login.ejs")
+        response.redirect("/")
     }
     })
 app.post(`/shoppingCart`,async (request, response)=>{
@@ -674,7 +720,7 @@ app.post("/",(request,response)=>{
 
 
         app.get(`/main_page`, (request, response)=>{
-            Product_info.find().then((product_infos)=>{
+            Product_info.find().then( async (product_infos)=>{
                 query_result = product_infos;
                 var location = [];
                 var brand = [];
@@ -701,7 +747,14 @@ app.post("/",(request,response)=>{
             
                 }
                 if (request.session.authorized){
-                    response.render("main_page_logged_in.ejs", {result: query_result, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                    const check = await User.findOne({_id: request.session.user._id})
+                    if (check){
+                        response.render("main_page_logged_in.ejs", {result: query_result, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                    }
+                    else{
+                        response.render("lazada_customer_main_page.ejs", {result: query_result, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                    }
+                    
                 }
                 else {
                     response.render("lazada_customer_main_page.ejs", {result: query_result, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
@@ -709,7 +762,7 @@ app.post("/",(request,response)=>{
                 
                 
         
-                app.get("/search", (request, response)=>{
+                app.get("/search", async (request, response)=>{
                     var name = request.query.search_bar;
                     var regEx = new RegExp(`${name}`);
                     var data = query_result.filter(function(item){
@@ -740,16 +793,23 @@ app.post("/",(request,response)=>{
                 
                     }
                     if (request.session.authorized){
-                        response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        const check = await User.findOne({_id: request.session.user._id})
+                        if (check){
+                            response.render("main_page_logged_in.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        }
+                        else{
+                            response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        }
+                        
                     }
                     else{
-                        response.render("main_page_logged_in.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
                     }
                     
         
                 })
         
-                app.get("/filter", (request, response)=>{
+                app.get("/filter", async (request, response)=>{
                     query_result = product_infos;
                 var max_price = parseInt(request.query.max_price)
                 var min_price = parseInt(request.query.min_price)
@@ -845,39 +905,60 @@ app.post("/",(request,response)=>{
         
                 
                 if (request.session.authorized){
-                    response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                    const check = await User.findOne({_id: request.session.user._id})
+                    if (check){
+                        response.render("main_page_logged_in.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                    }
+                    else{
+                        response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                    }
+                    
                 }
                 else{
-                    response.render("main_page_logged_in.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
                 }
                 
                 })
               
 
                 app.get("/:id", async (request,response)=>{
-                    await Product_info.findOne({_id: request.params.id}).then((query_result) =>{
-                        if (request.session.authorized){
-                            response.render("product_detail_logged_in.ejs", {result: query_result})
-                        }
-                        else{
-                            response.render("product_detail_new.ejs",{result: query_result})
-                        }
-                        
-                    })
+                    const check = await User.findOne({_id: request.session.user._id})
+                    if (check){
+                        await Product_info.findOne({_id: request.params.id}).then((query_result) =>{
+                            if (request.session.authorized){
+                                response.render("product_detail_logged_in.ejs", {result: query_result})
+                            }
+                            else{
+                                response.render("product_detail_new.ejs",{result: query_result})
+                            }
+                            
+                        })
+                    }
+                    else{
+                        response.render("product_detail_new.ejs",{result: query_result})
+                    }
+                    
                 })
             })})
 
-            app.get("/aboutus", (request,response)=>{
-                if (request.session.authorized){
-                    response.render("aboutUs.ejs")
-                }
-                else {
-                    response.render("aboutUslogin.ejs")
-                }
+            app.get("/aboutus", async (request,response)=>{
+                const check = await User.findOne({_id: request.session.user._id})
+                    if (check){
+                        if (request.session.authorized){
+                            response.render("aboutUs.ejs")
+                        }
+                        else {
+                            response.render("aboutUslogin.ejs")
+                        }
+                    }
+                    else{
+                        response.render("aboutUslogin.ejs")
+                    }
+                
                 
             })
 
-            app.get("con")
+        
 
 
 
