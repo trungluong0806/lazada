@@ -46,10 +46,23 @@
 
       <label>Product Description:</label>
       <textarea name="productDescription" maxlength="500" required></textarea><br><br>
-
-      <label>Image:</label>
-      <input type="file" name="image" required><br><br>
-      <input type="submit" value="Add">
+      
+      <label for="imageOne">Image 1:</label>
+      <input type="file" id="imageOne" name="imageOne" accept="image/*" required>
+    </div>
+    <div>
+      <label for="imageTwo">Image 2:</label>
+      <input type="file" id="imageTwo" name="imageTwo" accept="image/*" required>
+    </div>
+    <div>
+      <label for="imageThree">Image 3:</label>
+      <input type="file" id="imageThree" name="imageThree" accept="image/*" required>
+    </div>
+    <div>
+      <label for="imageFour">Image 4:</label>
+      <input type="file" id="imageFour" name="imageFour" accept="image/*" required>
+    </div>
+    <button type="submit">Add Product</button>
     </form>
   </body>
 </html>
