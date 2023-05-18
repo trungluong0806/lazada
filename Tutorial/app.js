@@ -224,9 +224,19 @@ app.post('/register', upload.single("image"), async(request, response) =>{
 })
 /* Vendor Pages Start */
 
-app.get("/add", (request,response)=>{
+app.get("/add", async(request,response)=>{
     if(request.session.authorized){
-        response.render("add.ejs") 
+        const check = await Vendor.findOne({_id: request.session.user._id})
+        console.log(check)
+        if (check){
+            response.render("add.ejs")
+        }
+
+        else{
+            response.redirect("/")
+        }
+
+        
     }
     else {
         response.redirect("/")
@@ -264,7 +274,6 @@ app.get("/myVendorAccount", async (request, response)=>{
     if (request.session.authorized){
         const check = await Vendor.findOne({_id: request.session.user._id})
         if (check){
-            console.log(request.session.user._id)
             await Vendor.findOne({_id: request.session.user._id}).then((vendor)=>{
             response.render("Vendor_Account.ejs", {info: vendor})
         })
