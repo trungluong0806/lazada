@@ -170,7 +170,7 @@ body{
     padding: 0;
     box-sizing: border-box;
     transition: 1s;
-    
+    font-family: 'Times New Roman', Times, serif;
 }
 
 ::-webkit-scrollbar {
@@ -296,7 +296,6 @@ body {
     align-items: center;
     width: 100%;
     height: 100px;
-    
     border-bottom: 1px solid black;
 }
 
@@ -315,8 +314,9 @@ body {
     margin-left: 10px;
 }
 #logo img{
-    width: 200px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 #logo_container {
@@ -784,12 +784,14 @@ footer .detail{
     display: flex;
     align-items: start;
     flex-direction: column;
-    font-size: 15px;
+    font-size: 16px;
+    padding: 10px;
 }
 
 footer .detail h3{
     border-bottom: 1px solid black;
     text-align: center;
+    margin: 10px;
 }
 
 
@@ -799,10 +801,17 @@ footer .detail a{
     line-height: 38px;
 }
 
+footer .detail ul{
+    list-style: none;
+    line-height: 30px;
+}
+
+
 footer .detail .contactUs {
     display: flex;
     flex-direction: column;
-    line-height: 4px;
+    
+
 }
 
 footer .detail .contactUs h2{
@@ -832,7 +841,8 @@ footer .copyRight{
     align-items: center;
     justify-content: center;
     border-top: 1px solid black;
-    font-size: 13px;
+    font-size: 15px;
+    padding: 5px;
 }
 /*Footer*/
 
