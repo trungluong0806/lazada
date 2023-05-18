@@ -6,6 +6,7 @@ app.use(express.static('public'))
 const mongoose = require('mongoose');
 const multer = require('multer');
 const session = require('express-session')
+var bodyParser = require('body-parser')
 const bcrypt = require("bcrypt")
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -30,7 +31,7 @@ app.listen(3500, function (err) {
 
 const { response, request } = require("express");
 
-var bodyParser = require('body-parser')
+
 
 app.use(express.json())
 app.use(bodyParser.json())
@@ -248,7 +249,7 @@ app.post("/myVendorAccount", upload.single("image"), async (request, response) =
             const doc = await Vendor.findOneAndUpdate(filter,update)
             
         }
-        response.redirect("/myVendorAccount")
+        
         
     }
     catch(err){

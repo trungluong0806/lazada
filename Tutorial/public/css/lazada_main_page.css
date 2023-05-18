@@ -314,6 +314,10 @@ body {
     background-color: white;
     margin-left: 10px;
 }
+#logo img{
+    width: 200px;
+    height: 100px;
+}
 
 #logo_container {
     display: flex;

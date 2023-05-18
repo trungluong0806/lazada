@@ -50,6 +50,17 @@ header{
     gap: 10px;
     align-items: center;
 }
+#logo{
+    height: 80px;
+    width: 200px;
+    background-color: white;
+    margin-left: 10px;
+}
+
+#logo img{
+    width: 200px;
+    height: 100px;
+}
 
 #social_media{
     height: 80px;
