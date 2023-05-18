@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="/css/product_detail.css">
+    <script src="https://kit.fontawesome.com/6f8d1d8e9d.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav id="vertical_navigation">
+        <div class="category">Household Appliances</div>
+                    <div class="category">Electronics</div>
+                    <div class="category">Fashion</div>
+                    <div class="category">For Kids</div>
+                    <div class="category">Groceries</div>
+                    <div class="category">Sport</div>
+                    <div class="category">Automotives</div>
+                    <div class="category">Education</div>
+                    <div class="category">Entertainment</div>
+                    <div class="category">Digital</div>
+                    <div class="category">Adults</div>
+                    <button id="Close">Close</button>
+    </nav>
+    <div id="overlay"></div>
+    <header id="logo_and_search">
+        <div id="permanent_component">
+            <div id="logo_container">
+                <div id="logo"></div>
+                <div id="social_media">
+                    <div class="social_media"><img class="media_icon" src="/photo/facebook.png" alt=""></div>
+                    <div class="social_media"><img class="media_icon" src="/photo/instagram-symbol.png" alt=""></div>
+                    <div class="social_media"><img class="media_icon" src="/photo/pinterest.png" alt=""></div>
+                </div>
+            </div>
+            <div id="search_bar_container">
+                <form id="search_function" action="/search", method="GET">
+                    <input name="search_bar" id="search_bar" type="text">
+                    <div id="search_container"><input id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
+                </form>
+            </div>
+        </div>
+        <div id="collapsed_content">
+            <div id="search_bar_container_2">
+                <form id="search_function" action="/search", method="GET">
+                    <input name="search_bar" id="search_bar" type="text">
+                    <div id="search_container"><input id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
+                </form>
+            </div>
+        </div>
+        
+        
+    </header>
+    <main>
+        <section>
+            <!-- Products -->
+            <div class="productInformation">
+                <div class="images">
+                    <div class="imagesMain">
+                        <img id="main_image" src="<%= result.imagePath %>" alt="">
+                    </div>
+                    <div class="imagesSecondary">
+                        <div class="secondaryContainer">
+                            <img id="main" class="secondary_image" src="<%= result.imagePath %>" alt="">
+                        </div>
+                        <div class="secondaryContainer">
+                            <img class="secondary_image" src="<%= result.image1Path %>" alt="">
+                        </div>
+                        <div class="secondaryContainer">
+                            <img class="secondary_image" src="<%= result.image2Path %>" alt="">
+                        </div>
+                        <div class="secondaryContainer">
+                            <img class="secondary_image" src="<%=result.image3Path %>" alt="">
+                        </div>
+                        
+                    </div>
+                    <div class="shareImages">
+                        <span>Share:</span> 
+                        <a href=""><i class="fa-brands fa-facebook-messenger" id="messenger"></i></a>
+                        <a href=""><i class="fa-brands fa-facebook" id="facebook"></i></a>
+                        <a href=""><i class="fa-brands fa-pinterest" id="pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="order">
+                    <div class="orderHeading">
+                        <h2 id="name" class="<%=result._id %>"><%= result.productName %></h2>
+                    </div>
+                    <div class="quickRating">
+                        <div class="ratingDetail">
+                            <div class="number" id="important">5</div>
+                            <div class="detail"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        </div>
+                        <div class="ratingDetail">
+                            <div class="number" id="important">125</div>
+                            <div class="detail">Rated</div>
+                        </div>
+                        
+                        <div class="ratingDetail">
+                            <div class="location">Location:</div>
+                            <div class="detail"><%= result.productLocation %></div>
+                        </div>
+                        
+                    </div>
+                    <div class="orderPrice">
+                        <h1 id="price"><%= result.productPrice %></h1>
+                    </div>
+                    <div class="orderInformationContainer">
+                        <div class="productSelection">
+                            <div class="selectionName">Type:</div>
+                            <div class="selectionContainter">
+                                <div class="selectionOptions">
+                                    <p>Type 1</p>
+                                </div>
+                                <div class="selectionOptions">
+                                    <p>Type 2</p>
+                                </div>                            
+                                <div class="selectionOptions">
+                                    <p>Type 1</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="quantity">
+                            <div class="quantityName"><p>Quantity</p></div>
+                            <input id="quantity_selector" type="number" value="1">
+                            <div class="quantityAvaiable"><span id="inventory"><%= result.Inventory%></span> <span>items are avaiable</span> </div>
+                        </div>      
+                    </div>
+                    <div class="submittionArea">
+                        <div class="buyNow">
+                            <button class="addtocart"> 
+                                <a id="buynow" href="">Buy Now</a>
+                            </button>
+                        </div>
+                        <div class="addtoCart" id="add_to_cart">
+                            <button id="addCart" class="addtocart">
+                                Add to cart<i class="fa-solid fa-cart-shopping"></i>
+                            </button>
+                        </div>
+                            
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="productDetail">
+                    <div class="detailHeading">
+                        <h1>Product Description</h1>
+                    </div>
+                    <div class="detailDescription">
+                        <table>
+                            <tr>
+                                <th>Country of origin</th>
+                                <td><%= result.productCFO %></td>
+                            </tr>
+                            <tr>
+                                <th>Brand</th>
+                                <td><%= result.productBrand %></td>
+                            </tr>
+                        </table>
+                        <div class="detailMoreInformation">
+                            <p>
+                                <%= result.productDescription %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+        </section>
+    </main>
+        
+        
+   
+    <footer>
+        <div class="subscriptionDiv">
+            <h4>Sign up for more information?</h4>
+            <form action="">
+                <div class="subscriptionDivInput">
+                    <input type="email" placeholder="Enter your email address here...">
+                    <button type="submit"><i class="fa-solid fa-envelope"></i></button>
+                </div>
+            </form>
+        </div>
+        <div class="basicInformation">
+            <div class="detail">
+                <br>
+                Information gonna display here
+            </div>
+            <div class="detail">
+
+                <h3>About Us</h3>
+                <a href="">About Swanglee Bookstore</a>
+                <a href="">Privacy Policy</a>
+                <a href="">Payment Methods</a>
+
+            </div>
+            <div class="detail">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: trungluong0806@gmail.com</li>
+                    <li>Phone: 0909173660</li>
+                    <li>Address: <address>819 488 Swanston 3053 Carlton</address> </li>
+                </ul>
+                
+                
+            </div>
+        </div>
+        <div class="copyRight">
+            <p>Page by Copyright@ by GroupName?</p>
+        </div>
+    </footer>
+
+    <div id="controller">
+        <div class="controller_icon" id="cart">
+            <div id="number_in_cart"></div>
+            <a href="http://localhost:3500/shoppingCart">
+                <img class="icon"  src="/photo/shopping-cart.png" alt="">
+            </a>
+        </div>
+        <div class="controller_icon">
+            <img class="icon" src="/photo/user.png" alt="">
+        </div>
+        <div class="controller_icon">
+            <img class="icon" src="/photo/settings.png" alt="">
+        </div>
+        <div class="controller_icon" id="menu_icon_box">
+            <img class="icon" id="menu_icon" src="/photo/menu-bar.png" alt="">
+        </div>
+        <div class="controller_icon" id="search_icon_box">
+            <img class="icon" id="search_icon" src="/photo/search-interface-symbol.png" alt="">
+        </div>
+    </div>
+    <script src="/js/product_detail.js"></script>
+</body>
+</html>
