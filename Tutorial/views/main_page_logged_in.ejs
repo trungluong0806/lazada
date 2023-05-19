@@ -44,17 +44,17 @@
                     </div>
                 </div>
                 <div id="search_bar_container">
-                    <form id="search_function" action="/search", method="GET">
+                    <form id="search_function" action="/search" method="GET">
                         <input name="search_bar" id="search_bar" type="text">
-                        <div id="search_container"><input id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
+                        <div id="search_container"><input alt="" id="search_submit" type="image" src="photo/search-interface-symbol.png"></div>
                     </form>
                 </div>
             </div>
             <div id="collapsed_content">
                 <div id="search_bar_container_2">
-                    <form id="search_function" action="/search", method="GET">
+                    <form id="search_function" action="/search" method="GET">
                         <input name="search_bar" id="search_bar" type="text">
-                        <div id="search_container"><input id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
+                        <div id="search_container"><input alt="" id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
                     </form>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                                     <div class="filter_box">
                                         <%for (let i=0; i < result_brand.length; i++){%>
                                             <div>
-                                                <input name="product_brand" type="checkbox" value="<%= result_brand[i]%>" >
+                                                <input name="product_brand" id="product_brand" type="checkbox" value="<%= result_brand[i]%>" >
                                                 <label for="product_brand"><%= result_brand[i]%></label>
                                             </div>
                                         <%}%>
@@ -141,7 +141,7 @@
                                     <div class="filter_box">
                                         <%for (let i=0; i < result_CFO.length; i++){%>
                                             <div>
-                                                <input name="product_CFO" type="checkbox" value="<%= result_CFO[i]%>">
+                                                <input name="product_CFO" id="product_CFO" type="checkbox" value="<%= result_CFO[i]%>">
                                                 <label for="product_CFO"><%= result_CFO[i]%></label>
                                             </div>
                                         <%}%>

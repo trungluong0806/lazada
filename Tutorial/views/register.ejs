@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <header id="logo_and_search">
+        <div id="logo_and_search">
             <div id="permanent_component">
               <div id="logo_container">
                   <div id="logo">
@@ -26,14 +26,14 @@
     
               
           </div>
-          </header>
+        </div>
     </header>
     <main>
         <form method="post" action="http://localhost:3500/register" id="registration_form" enctype="multipart/form-data">
             <div>
                 <h1>Customer Registration Page</h1>
             </div>
-            <div class="container" class="action">
+            <div class="container action" >
                 <label for="action">Register as: </label>
                 <select name="action" id="action">
                     <option value="Customer">Customer</option>
@@ -45,27 +45,27 @@
             <div id="general_info">
                 <div class="container">
                     <label class="label"  for="Full_name">Full Name</label>
-                    <input class="input" type="text" name="Full_name">
+                    <input class="input" type="text" name="Full_name" id="Full_name">
                 </div>
                 <div class="container email">
-                    <label class="label" name = "email">📧Email</label>
-                    <input class="input" type="email" name="email">
+                    <label class="label" name = "email" for="email">📧Email</label>
+                    <input class="input" type="email" name="email" id="email">
                 </div>
                 <div class="container email">
-                    <label class="label" name = "address">🏠Address</label>
+                    <label class="label" name = "address" for="address">🏠Address</label>
                     <input  class="input"  type="text" name="address" id="address">
                 </div>
                 <div class="container input_info">
-                    <label class="label">📱Phone Number</label>
-                    <input  class="input" type="number" name="phone" >   
+                    <label class="label" for="phone">📱Phone Number</label>
+                    <input  class="input" type="number" id="phone" name="phone" >   
                 </div>
                 </span>
                 <div class="container input_info">
-                    <label class="label" name = "username">👦Username</label>
+                    <label class="label" name = "username" for="username">👦Username</label>
                     <input  class="input" type="text" name="username" id="username" onkeydown="checkUsername()">  
                 </div>
                 <div class="container pass_info">
-                    <label class="label" name = "password">🔐Password</label>
+                    <label class="label" name = "password" for="password">🔐Password</label>
                     <input  class="input" id = "password" type="password" name="password" onkeyup="checkPassword()">  
                     <p class='hide-show' onclick="toggle()">Show/Hide</p>
                 </div>
@@ -116,20 +116,24 @@
                 <button id = "register" type="submit">Sign up</button>
             </div>
             
+
+            <!-- </div> -->
+
             
             </div>
 
 
 
+
             
-            <span>
+            <!-- <span> -->
                 <div class="error-display">
                     <div id="errorPassword"></div>
                     <div id="error"></div>
                     <div id="valid"></div>
                     <div id="valid2"></div>
                 </div>
-            </span>
+            <!-- </span> -->
             
             
         </form>
