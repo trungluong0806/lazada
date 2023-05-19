@@ -168,16 +168,7 @@ app.get("/register_error", (request, response) =>{
     response.render("register_error.ejs", {error: "Username already exists"})
     
 })
-async function update_pass(){
-    const salt = await bcrypt.genSalt()
-    const newPass = "Lacussaber12345@@@"
-    const hashedPassword = await bcrypt.hash(newPass, salt)
-    const filter = {_id: "6462f1a0bef9d731e062ca38"}
-    const update = {password: hashedPassword}
-    const doc = await Shipper.findOneAndUpdate(filter,update)
-}
 
-update_pass()
 
 
 app.post('/register', upload.single("image"), async(request, response) =>{
@@ -420,27 +411,17 @@ app.get("/myShipperAccount", async (request, response)=>{
 app.get("/shipping_management", async (request,response)=>{
     if (request.session.authorized){
         const check = await Shipper.findOne({_id: request.session.user._id})
+        console.log(check)
         if (check){
-            if (request.session.user.Role === "Admin"){
-                Order.find({city: request.session.user.Hub, orderStatus: "Active"}).then((Orders)=>{
-                    
-                    Shipper.find({Role: "Shipper", Hub: request.session.user.Hub}).then((Shippers)=>{
-                        response.render("Shipper_administration.ejs", {result: Orders, Shippers: Shippers})
-    
-                    })
-                })
+            if (check.Role === "Admin"){
+                console.log("true")
+                const Orders = await Order.find({city: request.session.user.Hub, orderStatus: "Active"})
+                const Shippers = await Shipper.find({Role: "Shipper", Hub: request.session.user.Hub})
+                response.render("Shipper_administration.ejs", {result: Orders, Shippers: Shippers})
+                
             }
             else {
                 Order.find({Delivery_man_id: request.session.user._id, orderStatus: "Assigned"}).then((Orders)=>{
-                    /* for (let i=0; i<Orders.length; i++){
-                        Order_info.find({Order_id: Orders[i]._id}).then((details) =>{
-                            app.get(`/Order_detail${Orders[i]._id}`, (req, res)=>{
-                                    res.render("Order_detail.ejs", {Orders: Orders[i], details: details})
-                                
-                                
-                            })
-                            })
-                    } */
                     response.render("shipper.ejs", {result: Orders})  
                 })
             }
@@ -450,7 +431,8 @@ app.get("/shipping_management", async (request,response)=>{
         }
         
     }
-    response.redirect("/")
+    else{response.redirect("/")}
+    
 })
 
 app.post("/Order_detail", async (request, response)=>{
