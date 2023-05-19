@@ -29,13 +29,13 @@ for (let i=0; i<main_image.length; i++){
 
 
 
-if (!(localStorage.getItem("number_in_cart"))){
-    localStorage.setItem("number_in_cart",0)
-    number_in_cart.textContent = localStorage.getItem("number_in_cart")
+if (!(localStorage.getItem("number_in_cart_application_web_Development"))){
+    localStorage.setItem("number_in_cart_application_web_Development",0)
+    number_in_cart.textContent = localStorage.getItem("number_in_cart_application_web_Development")
 }
 else{
-    localStorage.setItem("number_in_cart", JSON.parse(localStorage.getItem("cart")).length)
-    number_in_cart.textContent = localStorage.getItem("number_in_cart")
+    localStorage.setItem("number_in_cart_application_web_Development", JSON.parse(localStorage.getItem("cart_web_DeVeLopment")).length)
+    number_in_cart.textContent = localStorage.getItem("number_in_cart_application_web_Development")
 }
 
 

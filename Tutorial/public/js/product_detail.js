@@ -22,19 +22,19 @@ const image_navigation = document.getElementById("image_navigation")
     
 
 
-if (!(localStorage.getItem("number_in_cart"))){
-    localStorage.setItem("number_in_cart",0)
-    number_in_cart.textContent = localStorage.getItem("number_in_cart")
+if (!(localStorage.getItem("number_in_cart_application_web_Development"))){
+    localStorage.setItem("number_in_cart_application_web_Development",0)
+    number_in_cart.textContent = localStorage.getItem("number_in_cart_application_web_Development")
 }
 else{
-    number_in_cart.textContent = localStorage.getItem("number_in_cart")
+    number_in_cart.textContent = localStorage.getItem("number_in_cart_application_web_Development")
 }
 
 addCart.addEventListener("click", function(){
-    let item_number = parseInt(localStorage.getItem("number_in_cart"))
+    let item_number = parseInt(localStorage.getItem("number_in_cart_application_web_Development"))
     item_number = item_number +1
-    localStorage.setItem("number_in_cart", item_number)
-    number_in_cart.textContent = localStorage.getItem("number_in_cart")
+    localStorage.setItem("number_in_cart_application_web_Development", item_number)
+    number_in_cart.textContent = localStorage.getItem("number_in_cart_application_web_Development")
 })
 
 if (inventory.textContent==='0'){
@@ -116,24 +116,24 @@ addCart.addEventListener("click", function(){
     
 
 
-    if (!(localStorage.cart)){
+    if (!(localStorage.cart_web_DeVeLopment)){
         item= `[${JSON.stringify(item_info)}]`
-        localStorage.setItem("cart", item)
+        localStorage.setItem("cart_web_DeVeLopment", item)
         path_array =`[${JSON.stringify(image_path)}]`
-        localStorage.setItem("cart_image",path_array)
+        localStorage.setItem("cart_image_web_DeVeLopment",path_array)
     }
     else{
-        item= JSON.parse(localStorage.getItem("cart"))
+        item= JSON.parse(localStorage.getItem("cart_web_DeVeLopment"))
         item.push(item_info)
-        path_array = JSON.parse(localStorage.getItem("cart_image"))
+        path_array = JSON.parse(localStorage.getItem("cart_image_web_DeVeLopment"))
         path_array.push(image_path)
         for (let i =0; i< item.length; i++){
             item[i]=JSON.stringify(item[i])
             path_array[i] = JSON.stringify(path_array[i])
     } 
         
-        localStorage.setItem("cart", `[${item}]`);
-        localStorage.setItem("cart_image",`[${path_array}]`)
+        localStorage.setItem("cart_web_DeVeLopment", `[${item}]`);
+        localStorage.setItem("cart_image_web_DeVeLopment",`[${path_array}]`)
     }
     
 })

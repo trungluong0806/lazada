@@ -1,5 +1,5 @@
-const localStorage_length = JSON.parse(localStorage.getItem("cart"))
-const localStorage_image = JSON.parse(localStorage.getItem("cart_image"))
+const localStorage_length = JSON.parse(localStorage.getItem("cart_web_DeVeLopment"))
+const localStorage_image = JSON.parse(localStorage.getItem("cart_image_web_DeVeLopment"))
 const table_cart = document.querySelector("table")
 const totalmoney = document.querySelectorAll("#totalMoney")
 console.log(localStorage_length)
@@ -18,9 +18,9 @@ let number_item = parseInt(localStorage.getItem("number_in_cart"))
 
 const checkout = document.getElementById("checkout")
 checkout.addEventListener("click", function(){
-    localStorage.setItem("cart",'[]')
-    localStorage.setItem("cart_image",'[]')
-    localStorage.setItem("number_in_cart",0)
+    localStorage.setItem("cart_web_DeVeLopment",'[]')
+    localStorage.setItem("cart_image_web_DeVeLopment",'[]')
+    localStorage.setItem("number_in_cart_application_web_Development",0)
 })
 
 
@@ -64,10 +64,10 @@ for (let i=0; i < localStorage_length.length; i++){
 const remove_item = document.querySelectorAll(".remove_item")
 const rows = document.querySelectorAll("tr")
 for (let i=0; i<remove_item.length; i++){
-    let ver = parseInt(JSON.parse(localStorage.getItem("number_in_cart")))
+    let ver = parseInt(JSON.parse(localStorage.getItem("number_in_cart_application_web_Development")))
     if (ver>0){
         number_item = number_item -1
-        localStorage.setItem("number_in_cart", number_item)
+        localStorage.setItem("number_in_cart_application_web_Development", number_item)
     }
    
     remove_item[i].addEventListener("click", function(){
@@ -78,8 +78,8 @@ for (let i=0; i<remove_item.length; i++){
             localStorage_length[k]=JSON.stringify(localStorage_length[k])
             localStorage_image[k]=JSON.stringify(localStorage_image[k])
         }
-        localStorage.setItem("cart", `[${localStorage_length}]`)
-        localStorage.setItem("cart_image",`[${localStorage_image}]`)
+        localStorage.setItem("cart_web_DeVeLopment", `[${localStorage_length}]`)
+        localStorage.setItem("cart_image_web_DeVeLopment",`[${localStorage_image}]`)
         window.location.reload()
     })
 }

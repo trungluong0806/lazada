@@ -5,9 +5,9 @@ const my_Order = document.getElementById("my_Order")
 const log_out = document.getElementById("log_out")
 
 log_out.addEventListener("click", function(){
-    localStorage.setItem("cart",'[]')
-    localStorage.setItem("cart_image",'[]')
-    localStorage.setItem("number_in_cart",0)
+    localStorage.setItem("cart_web_DeVeLopment",'[]')
+    localStorage.setItem("cart_image_web_DeVeLopment",'[]')
+    localStorage.setItem("number_in_cart_application_web_Development",0)
     })
 
 myOrder.addEventListener("click", function(){

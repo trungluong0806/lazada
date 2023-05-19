@@ -178,7 +178,6 @@ app.post('/register', upload.single("image"), async(request, response) =>{
     const register_info = request.body
     const hashedPassword = await bcrypt.hash(register_info.password, salt)
     if (register_info.action === "Customer"){
-        console.log(true)
         imgPath = imgPath.replace(public,"")
         const user = new User({
             username: register_info.username,
@@ -439,7 +438,6 @@ app.post("/Order_detail", async (request, response)=>{
                                     
     try{
         const update_request = request.body
-        console.log(update_request)
         const filter = {_id: update_request.Order_id}
         const update = {orderStatus: update_request.status}
         const doc = await Order.findOneAndUpdate(filter,update, {new: true})
@@ -455,7 +453,6 @@ app.post("/Order_detail", async (request, response)=>{
 app.post("/AdminDelivery", async (request, response)=>{
      try{
         const request_body = request.body
-        console.log(request_body.Shipper_id)
         const filter= {_id: request_body.Order_id}
         const update = {Delivery_man_id: request_body.Shipper_id, orderStatus: "Assigned"}
         const doc = await Order.findOneAndUpdate(filter,update, {new: true})
@@ -502,7 +499,6 @@ app.post("/myCustomerAccount", upload.single("image"), async (request, response)
         const filter = {username: update_body.username}
         if (request.file){
             const profileimgPath = request.file.filename
-            console.log(profileimgPath)
             const update = {Full_name: update_body.fullname, address: update_body.address, email: update_body.email, Phone_Number: update_body.phone, profileImagePath: profileimgPath }
             const doc = await User.findOneAndUpdate(filter,update)
 
