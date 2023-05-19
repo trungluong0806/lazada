@@ -64,8 +64,12 @@ for (let i=0; i < localStorage_length.length; i++){
 const remove_item = document.querySelectorAll(".remove_item")
 const rows = document.querySelectorAll("tr")
 for (let i=0; i<remove_item.length; i++){
-    number_item = number_item -1
-    localStorage.setItem("number_in_cart", number_item)
+    let ver = parseInt(JSON.parse(localStorage.getItem("number_in_cart")))
+    if (ver>0){
+        number_item = number_item -1
+        localStorage.setItem("number_in_cart", number_item)
+    }
+   
     remove_item[i].addEventListener("click", function(){
         rows[i].style.display="none"
         localStorage_length.splice(i,1)

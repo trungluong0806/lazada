@@ -10,7 +10,25 @@
     <title>Register page</title>
 </head>
 <body>
-        
+    <header>
+        <header id="logo_and_search">
+            <div id="permanent_component">
+              <div id="logo_container">
+                  <div id="logo">
+                    <img  src="photo/random-logo-png-transparent.png" alt="">
+                  </div>
+                  <div id="social_media">
+                      <div class="social_media"><img class="media_icon" src="/photo/facebook.png" alt=""></div>
+                      <div class="social_media"><img class="media_icon" src="/photo/instagram-symbol.png" alt=""></div>
+                      <div class="social_media"><img class="media_icon" src="/photo/pinterest.png" alt=""></div>
+                  </div>
+              </div>
+    
+              
+          </div>
+          </header>
+    </header>
+    <main>
         <form method="post" action="http://localhost:3500/register" id="registration_form" enctype="multipart/form-data">
             <div>
                 <h1>Customer Registration Page</h1>
@@ -26,8 +44,8 @@
 
             <div id="general_info">
                 <div class="container">
-                    <label for="Full_name">Full Name</label>
-                    <input type="text" name="Full_name">
+                    <label class="label"  for="Full_name">Full Name</label>
+                    <input class="input" type="text" name="Full_name">
                 </div>
                 <div class="container email">
                     <label for = "email">📧Email</label>
@@ -40,14 +58,28 @@
                 <div class="container input_info">
                     <label for="phone">📱Phone Number</label>
                     <input type="number" id="phone" >   
+                    <label class="label" name = "email">📧Email</label>
+                    <input class="input" type="email" name="email">
+                </div>
+                <div class="container email">
+                    <label class="label" name = "address">🏠Address</label>
+                    <input  class="input"  type="text" name="address" id="address">
                 </div>
                 <div class="container input_info">
+                    <label class="label">📱Phone Number</label>
+                    <input  class="input" type="number" name="phone" >   
+                </div>
+                <div class="container input_info">
+
                     <label for = "username">👦Username</label>
                     <input type="text" name="username" id="username" onkeydown="checkUsername()">  
+
+                    <label class="label" name = "username">👦Username</label>
+                    <input  class="input" type="text" name="username" id="username" onkeydown="checkUsername()">  
                 </div>
                 <div class="container pass_info">
-                    <label name = "password">🔐Password</label>
-                    <input id = "password" type="password" name="password" onkeyup="checkPassword()">  
+                    <label class="label" name = "password">🔐Password</label>
+                    <input  class="input" id = "password" type="password" name="password" onkeyup="checkPassword()">  
                     <p class='hide-show' onclick="toggle()">Show/Hide</p>
                 </div>
                 
@@ -70,34 +102,44 @@
             <!-- vendor specific -->
             <div class="container" id="vendor_specific">
                 <div class="input_info">
-                    <label>🏢Business Name</label>
-                    <input type="text" name="business" >  
+                    <label class="label">🏢Business Name</label>
+                    <input  class="input" type="text" name="business" >  
                 </div>
                 <div class="input_info">
-                    <label>📌Business Address</label>
-                    <input type="text" name="baddress" id="baddress">  
+                    <label class="label">📌Business Address</label>
+                    <input  class="input" type="text" name="baddress" id="baddress">  
                 </div>
                 <div class="input_info">
-                    <label for="National_id">National Id</label>
-                    <input type="text" name="National_id" id="National_id">
+                    <label class="label" for="National_id">National Id</label>
+                    <input  class="input" type="text" name="National_id" id="National_id">
                 </div>
 
             </div>
-            <div id="image_upload">
-                <label>Main image:</label>
-                <input type="file" name="image" required><br><br>
+            <div id="image_upload" class="input_info">
+                <label class="image">Main image:</label>
+                <input type="file" name="image" class="image" required><br><br>
             </div>
+            <div id="message">
+                <p style="color: red;">
+                    Username already exists. Please try again
+                </p>
+                <p style="text-align: center;">
+                    Already have an account? <a href="/">Log in</a>
+                </p>
+                
+            </div>
+            
             
 
             <!-- end -->
-            
-            <button id = "register" type="submit">Sign up</button>
+            <div class="container submit">
+                <button id = "register" type="submit">Sign up</button>
             </div>
 
-
-
-            
             <!-- <span> -->
+
+            </div>
+            <span>
                 <div class="error-display">
                     <div id="errorPassword"></div>
                     <div id="error"></div>
@@ -108,6 +150,8 @@
             
             
         </form>
+    </main>
+        
     <script src="/js/functions.js">
     </script>
 </body>
