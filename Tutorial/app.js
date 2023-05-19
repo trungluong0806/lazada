@@ -174,7 +174,6 @@ app.get("/register_error", (request, response) =>{
 app.post('/register', upload.single("image"), async(request, response) =>{
     const public = "public"
     const salt = await bcrypt.genSalt()
-    
     imgPath=request.file.filename
     const register_info = request.body
     const hashedPassword = await bcrypt.hash(register_info.password, salt)
@@ -200,7 +199,7 @@ app.post('/register', upload.single("image"), async(request, response) =>{
     }
     else if (register_info.action === "Shipper"){
         imgPath = imgPath.replace(public,"")
-        Shipper.create({Full_name: register_info.Full_name, email: register_info.email, username: register_info.username, address: register_info.address, Phone_Number: register_info.phone, password: register_info.hashedPassword, Hub: register_info.hub, profileImagePath: imgPath })
+        Shipper.create({Full_name: register_info.Full_name, email: register_info.email, username: register_info.username, address: register_info.address, Phone_Number: register_info.phone, password: hashedPassword, Hub: register_info.hub, profileImagePath: imgPath })
         .then(() =>{response.redirect("/")})
         .catch((error)=>{
             response.redirect("/register_error")
@@ -210,7 +209,7 @@ app.post('/register', upload.single("image"), async(request, response) =>{
     
     else {
         imgPath = imgPath.replace(public,"")
-        Vendor.create({Full_name: register_info.Full_name, email: register_info.email, username: register_info.username, address: register_info.address, Phone_Number: register_info.phone, password: register_info.hashedPassword, Business_name: register_info.business, baddress: register_info.baddress, national_id: register_info.National_id, profileImagePath: imgPath})
+        Vendor.create({Full_name: register_info.Full_name, email: register_info.email, username: register_info.username, address: register_info.address, Phone_Number: register_info.phone, password: hashedPassword, Business_name: register_info.business, baddress: register_info.baddress, national_id: register_info.National_id, profileImagePath: imgPath})
         .then(() => {response.redirect("/")})
         .catch(
             (error)=>{
@@ -259,6 +258,7 @@ app.post("/myVendorAccount", upload.single("image"), async (request, response) =
             const doc = await Vendor.findOneAndUpdate(filter,update)
             
         }
+        response.redirect("/myVendorAccount")
         
         
     }
@@ -657,13 +657,13 @@ app.post("/",(request,response)=>{
             Shipper.findOne({username: input_info.username}).then(async (check) =>{
 
                 if (check) {
-                    
                     if (await bcrypt.compare(input_info.password, check.password)){
+                        console.log(true)
                         request.session.user = check;
                         request.session.authorized = true;
                         response.render("Shipper_Account.ejs", {info: check})
                     }
-    
+
                     else{
                         
                         response.render("log_in_error.ejs", {error: Incorrect_password})
@@ -921,25 +921,29 @@ app.post("/",(request,response)=>{
                 })
               
 
-                app.get("/:id", async (request,response)=>{
+                
+            })})
+
+            app.get("/:id", async (request,response)=>{
+                const query_result = await Product_info.findOne({_id: request.params.id})
+                if (request.session.authorized){
+                    
                     const check = await User.findOne({_id: request.session.user._id})
                     if (check){
-                        await Product_info.findOne({_id: request.params.id}).then((query_result) =>{
-                            if (request.session.authorized){
-                                response.render("product_detail_logged_in.ejs", {result: query_result})
-                            }
-                            else{
-                                response.render("product_detail_new.ejs",{result: query_result})
-                            }
-                            
-                        })
+                        
+                        response.render("product_detail_logged_in.ejs", {result: query_result})
+
                     }
                     else{
                         response.render("product_detail_new.ejs",{result: query_result})
                     }
-                    
-                })
-            })})
+                }
+                else{
+                    response.render("product_detail_new.ejs",{result: query_result})
+                }
+                
+                
+            })
 
             app.get("/aboutus", async (request,response)=>{
                 const check = await User.findOne({_id: request.session.user._id})

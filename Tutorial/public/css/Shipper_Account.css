@@ -18,6 +18,8 @@ header{
 main{
     display: flex;
     justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 #logo_and_search{
@@ -107,7 +109,7 @@ main{
     height: 100%;
     width: 100%;
 }
-form{
+#main_container form{
     padding-inline: 20px;
     display: flex;
     flex-direction: column;
