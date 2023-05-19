@@ -34,8 +34,11 @@ if (!(localStorage.getItem("number_in_cart"))){
     number_in_cart.textContent = localStorage.getItem("number_in_cart")
 }
 else{
+    localStorage.setItem("number_in_cart", JSON.parse(localStorage.getItem("cart")).length)
     number_in_cart.textContent = localStorage.getItem("number_in_cart")
 }
+
+
 
 
 
