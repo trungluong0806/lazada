@@ -6,8 +6,6 @@
   ID: Your student ids: S3679813, s3891958, s3979760, s3977794, s3977756
   Acknowledgement: Acknowledgement: the images used here were borrowed from other webpages. Their links could be found in the report   */
 
-  
-const mysql = require("mysql");
 const express = require("express");
 const app = express();
 app.set("view engine", "ejs")
