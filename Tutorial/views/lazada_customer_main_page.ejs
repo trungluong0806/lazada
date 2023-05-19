@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div id="search_bar_container">
-                    <form id="search_function" action="/search", method="GET">
+                    <form id="search_function" action="/search" method="GET">
                         <input name="search_bar" id="search_bar" type="text">
                         <div id="search_container"><input id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
                     </form>
@@ -59,9 +59,9 @@
             </div>
             <div id="collapsed_content">
                 <div id="search_bar_container_2">
-                    <form id="search_function" action="/search", method="GET">
+                    <form id="search_function" action="/search" method="GET">
                         <input name="search_bar" id="search_bar" type="text">
-                        <div id="search_container"><input id="search_submit" type="image" src="/photo/search-interface-symbol.png"></div>
+                        <div id="search_container"><input id="search_submit" type="image" alt="" src="/photo/search-interface-symbol.png" alt=""></div>
                     </form>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                                     <div class="filter_box">
                                         <%for (let i=0; i < result_loc.length; i++){%>
                                             <div>
-                                                <input name="product_location" type="checkbox" value="<%= result_loc[i]%>">
+                                                <input name="product_location" id="product_location" type="checkbox" value="<%= result_loc[i]%>">
                                                 <label for="product_location"><%= result_loc[i]%></label>
                                             </div>
                                         <%}%>
@@ -148,7 +148,8 @@
                                     <div class="filter_box">
                                         <%for (let i=0; i < result_CFO.length; i++){%>
                                             <div>
-                                                <input name="product_CFO" type="checkbox" value="<%= result_CFO[i]%>">
+                                                <input name="product_CFO" id="product_CFO
+                                                " type="checkbox" value="<%= result_CFO[i]%>">
                                                 <label for="product_CFO"><%= result_CFO[i]%></label>
                                             </div>
                                         <%}%>
@@ -205,7 +206,7 @@
                 <div class="detail">
     
                     <h3>About Us</h3>
-                    <a href="/aboutUs"></a></a>
+                    <a href="/aboutUs"></a>
                     <a href="">Privacy Policy</a>
                     <a href="">Payment Methods</a>
     
