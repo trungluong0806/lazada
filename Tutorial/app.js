@@ -499,10 +499,10 @@ app.post("/AdminDelivery", async (request, response)=>{
 app.post("/myCustomerAccount", upload.single("image"), async (request, response) =>{
     try{
         const update_body = request.body
-        console.log(update_body)
         const filter = {username: update_body.username}
         if (request.file){
             const profileimgPath = request.file.filename
+            console.log(profileimgPath)
             const update = {Full_name: update_body.fullname, address: update_body.address, email: update_body.email, Phone_Number: update_body.phone, profileImagePath: profileimgPath }
             const doc = await User.findOneAndUpdate(filter,update)
 

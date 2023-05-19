@@ -153,6 +153,207 @@ label{
     height: 40px;
 }
 
+footer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    background: white;    
+    padding-bottom: 80px;
+}
+
+footer .subscriptionDiv{
+    width: 60%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    color: black;
+    text-transform: capitalize;
+    margin: 0;
+    border-bottom: 1px solid black;
+}
+
+footer .subscriptionDiv .subscriptionDivInput{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+footer .subscriptionDiv .subscriptionDivInput input{
+    height: 35px;
+    width: 250px;
+    border-radius: 15px 0 0 15px;
+    border: 1px solid black;
+    border-right: none;
+    padding-left: 10px;
+    color: black;
+    background: white;
+    box-sizing: border-box;
+    outline: none;
+}
+footer .subscriptionDiv .subscriptionDivInput input::placeholder{
+    color: black;
+}
+footer .subscriptionDiv .subscriptionDivInput button{
+    height: 35px;
+    width: 30px;
+    border: 1px solid black;
+    border-radius: 0 15px 15px 0;
+    color: black;
+    cursor: pointer;
+    background: white;   
+}
+footer .basicInformation{
+    display: flex;
+    width: 60%; 
+    justify-content: space-evenly;
+    align-items:  flex-start;
+}
+
+footer .detail:first-child{
+    font-size: 17px;   
+}
+
+footer .basicInformation img{
+    width: 200px;
+    margin: auto;
+}
+footer .detail{
+    word-wrap: break-word;
+    width: 100%;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    font-size: 15px;
+    padding-bottom: 10px;
+}
+
+footer .detail h3{
+    border-bottom: 1px solid black;
+    margin: 10px 0;
+}
+
+
+footer .detail a{
+    text-decoration: none;
+    color: black;
+    line-height: 38px;
+}
+
+footer .detail ul{
+    list-style-type: none;
+    line-height: 29px;
+}
+
+footer .detail .contactUs {
+    display: flex;
+    flex-direction: column;
+    line-height: 25px;
+}
+
+footer .detail .contactUs h2{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+footer .detail .contactUs h2 a{
+    margin-right: 10px;
+    cursor: pointer;
+    transform: none;
+    font-size: 25px;
+}
+
+footer .detail  a:hover{
+    transform: translateX(5px);
+    text-decoration: underline;
+}
+
+footer .copyRight{
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid black;
+    font-size: 16px;
+    padding: 10px;
+}
+
+@media screen and (max-width: 960px) { 
+    #name_field{
+        display: flex;
+        flex-direction: column;
+        gap: 20px
+    }
+
+    #username, #fullname{
+        width: 80%;
+        height: 30px;
+    }
+     
+ }
+
+ @media (max-width: 1023px){
+   
+
+    /* Footer */
+    footer .subscriptionDiv{
+        width: 100%;
+    }
+    footer .basicInformation{
+        width: 100%;
+        padding: 0 10px;
+    }
+    footer .copyRight{
+        width: 100%;
+    }
+    /* Footer */
+}
+
+@media (max-width: 767px){
+  
+
+    /* Footer */
+    footer .subscriptionDiv{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 120px;
+    }
+    footer .subscriptionDiv h4{
+        font-size: 19px;
+        padding: 0;
+        margin: 0;
+    }
+
+    footer .basicInformation{
+        padding-top: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    footer .basicInformation p{
+        font-size: 18px;
+    }
+
+    footer .basicInformation h3{
+        font-size: 21px;
+    }
+
+    footer .basicInformation a{
+        font-size: 16px;
+    }
+    /* Footer */
+    
+    }
+
 @media screen and (max-width: 960px){
     #main_container{
         width: 90%;

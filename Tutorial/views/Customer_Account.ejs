@@ -39,7 +39,7 @@
                 </div>
                 <div id="content">
                     <div id="Personal_info">
-                        <form action="/myCustomerAccount" method="POST">
+                        <form action="/myCustomerAccount" method="POST" enctype="multipart/form-data">
                             <div id="name_field">
                                 <div>
                                     <label for="username">Username</label>
@@ -64,7 +64,7 @@
                                 <input class="other_than_name" type="text" name="address" value="<%= Users.address %>">
                             </div>
                             <div>
-                                <input type="file">
+                                <input name="image" type="file">
                             </div>
                             <div>
                                 <input type="submit">
