@@ -14,7 +14,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const session = require('express-session')
 var bodyParser = require('body-parser')
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/photo/');
