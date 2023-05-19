@@ -719,7 +719,7 @@ app.post("/",(request,response)=>{
 
 
 
-        app.get(`/main_page`, (request, response)=>{
+/*         app.get(`/main_page`, (request, response)=>{
             Product_info.find().then( async (product_infos)=>{
                 query_result = product_infos;
                 var location = [];
@@ -922,29 +922,266 @@ app.post("/",(request,response)=>{
               
 
                 
-            })})
+            })}) */
 
-            app.get("/:id", async (request,response)=>{
-                const query_result = await Product_info.findOne({_id: request.params.id})
-                if (request.session.authorized){
+            app.get(`/main_page`, (request, response)=>{
+                Product_info.find().then(async (product_infos)=>{
+                    query_result = product_infos;
+                    var location = [];
+                    var brand = [];
+                    var CFO = [];
+                    var UniqueLocation=[];
+                    var UniqueBrand=[];
+                    var UniqueCFO = [];
+                    for (let i=0; i < query_result.length; i++){
+                        location.push(query_result[i].productLocation);
+                        brand.push(query_result[i].productBrand);
+                        CFO.push(query_result[i].productCFO)};
+                
+                    for (let i =0; i< location.length; i++){
+                        if (!(UniqueLocation.includes(location[i]))) {
+                            UniqueLocation.push(location[i]);
+                        }
+                        if (!(UniqueBrand.includes(brand[i]))) {
+                            UniqueBrand.push(brand[i])
+                        }
+                
+                        if (!(UniqueCFO.includes(CFO[i]))) {
+                            UniqueCFO.push(CFO[i])
+                        }
+                
+                    }
                     
-                    const check = await User.findOne({_id: request.session.user._id})
-                    if (check){
+                    if (request.session.authorized){
+                        const check = await User.findOne({_id: request.session.user._id})
+                        if (check){
+                            response.render("main_page_logged_in.ejs", {result: query_result, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        }
+                        else{
+                            response.render("lazada_customer_main_page.ejs", {result: query_result, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        }
                         
-                        response.render("product_detail_logged_in.ejs", {result: query_result})
-
                     }
-                    else{
-                        response.render("product_detail_new.ejs",{result: query_result})
+                    else {
+                        response.render("lazada_customer_main_page.ejs", {result: query_result, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
                     }
-                }
-                else{
-                    response.render("product_detail_new.ejs",{result: query_result})
-                }
+                    
+                    
+            
+                    app.get("/search", async (request, response)=>{
+                        var name = request.query.search_bar;
+                        var regEx = new RegExp(`${name}`);
+                        var data = query_result.filter(function(item){
+                            return (regEx.test(item.productName) || regEx.test(item.productDescription))
+                        });
+                        var location = [];
+                        var brand = [];
+                        var CFO = [];
+                        var UniqueLocation=[];
+                        var UniqueBrand=[];
+                        var UniqueCFO = [];
+                        for (let i=0; i < data.length; i++){
+                            location.push(data[i].productLocation);
+                            brand.push(data[i].productBrand);
+                            CFO.push(data[i].productCFO)};
+                    
+                        for (let i =0; i< location.length; i++){
+                            if (!(UniqueLocation.includes(location[i]))) {
+                                UniqueLocation.push(location[i]);
+                            }
+                            if (!(UniqueBrand.includes(brand[i]))) {
+                                UniqueBrand.push(brand[i])
+                            }
+                    
+                            if (!(UniqueCFO.includes(CFO[i]))) {
+                                UniqueCFO.push(CFO[i])
+                            }
+                    
+                        }
+                        if (request.session.authorized){
+                            const check = await User.findOne({_id: request.session.user._id})
+                            if (check){
+                                response.render("main_page_logged_in.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                            }
+                            else{
+                                response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                            }
+                            
+                        }
+                        else{
+                            response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        }
+                        
+            
+                    })
+            
+                    app.get("/filter", async (request, response)=>{
+                        query_result = product_infos;
+                    var max_price = parseInt(request.query.max_price)
+                    var min_price = parseInt(request.query.min_price)
+                    var brands = request.query.product_brand
+                    var locations = request.query.product_location
+                    var CFOs = request.query.product_CFO
+                    var  items_after_max_price = query_result.filter((item) =>{return (max_price ===0 || item.productPrice <= max_price)})
+                    var item_after_min_price = items_after_max_price.filter((item) =>{
+                        return parseInt(item.productPrice) >= min_price
+                    })
+                     var brand_item = item_after_min_price.filter((item)=>{
+                        var typecheck = typeof brands;
+                        if (typecheck==="string"){
+                            return item.productBrand === brands
+                        }
+                        else if (typecheck ==="object" || typecheck ==="array") {
+                            if (brands.includes(item.productBrand)){
+                                return true
+                            }
+                            else{
+                                return false
+                            }
+                        }
+                        else {
+                            return true
+                        }
+                    }) 
+                    
+                  var location_item = brand_item.filter((item)=>{
+                        var typecheck = typeof locations;
+                        if (typecheck==="string"){
+                            return item.productLocation === locations
+                        }
+                        else if (typecheck ==="object" || typecheck ==="array") {
+                            if (locations.includes(item.productLocation)){
+                                return true
+                            }
+                            else{
+                                return false
+                            }
+                        }
+                        else{
+                            return true
+                        }
+            
+                    })   
+            
+                    var data = location_item.filter((item)=>{
+                        var typecheck = typeof CFOs;
+                        if (typecheck==="string"){
+                            return item.productCFO === CFOs
+                        }
+                        else if (typecheck ==="object" || typecheck ==="array") {
+                            if (CFOs.includes(item.productCFO)){
+                                return true
+                            }
+                            else{
+                                return false
+                            }
+                        }
+                        else{
+                            return true
+                        }
+            
+                    })   
+            
+                    var location = [];
+                    var brand = [];
+                    var CFO = [];
+                    var UniqueLocation=[];
+                    var UniqueBrand=[];
+                    var UniqueCFO = [];
+                    for (let i=0; i < data.length; i++){
+                        location.push(data[i].productLocation);
+                        brand.push(data[i].productBrand);
+                        CFO.push(data[i].productCFO)};
                 
-                
-            })
+                        for (let i =0; i< location.length; i++){
+                            if (!(UniqueLocation.includes(location[i]))) {
+                                UniqueLocation.push(location[i]);
+                            }
+                            if (!(UniqueBrand.includes(brand[i]))) {
+                                UniqueBrand.push(brand[i])
+                            }
+                    
+                            if (!(UniqueCFO.includes(CFO[i]))) {
+                                UniqueCFO.push(CFO[i])
+                            }
+            
+                    
+                        }
+                    
+            
+                    
+                        if (request.session.authorized){
+                            const check = await User.findOne({_id: request.session.user._id})
+                            if (check){
+                                response.render("main_page_logged_in.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                            }
+                            else{
+                                response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                            }
+                            
+                        }
+                        else{
+                                response.render("lazada_customer_main_page.ejs", {result: data, result_loc: UniqueLocation, result_brand: UniqueBrand, result_CFO: UniqueCFO})
+                        }
+                    
+                    })
+                  
+    
+                    app.get("/:id", async (request,response)=>{
+                        const query_result = await Product_info.findOne({_id: request.params.id})
+                        if (request.session.authorized){
+                            
+                            const check = await User.findOne({_id: request.session.user._id})
+                            if (check){
+                                
+                                response.render("product_detail_logged_in.ejs", {result: query_result})
+        
+                            }
+                            else{
+                                response.render("product_detail_new.ejs",{result: query_result})
+                            }
+                        }
+                        else{
+                            response.render("product_detail_new.ejs",{result: query_result})
+                        }
+                        
+                        
+                    })
+        
+                })})
 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             app.get("/aboutus", async (request,response)=>{
                 const check = await User.findOne({_id: request.session.user._id})
                     if (check){
