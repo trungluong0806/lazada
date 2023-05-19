@@ -927,6 +927,7 @@ app.post("/",(request,response)=>{
             app.get(`/main_page`, (request, response)=>{
                 Product_info.find().then(async (product_infos)=>{
                     query_result = product_infos;
+                    console.log(query_result)
                     var location = [];
                     var brand = [];
                     var CFO = [];
@@ -1016,7 +1017,8 @@ app.post("/",(request,response)=>{
                     })
             
                     app.get("/filter", async (request, response)=>{
-                        query_result = product_infos;
+                    query_result = product_infos;
+                    console.log(query_result)
                     var max_price = parseInt(request.query.max_price)
                     var min_price = parseInt(request.query.min_price)
                     var brands = request.query.product_brand

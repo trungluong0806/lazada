@@ -27,6 +27,8 @@ for (let i=0; i<main_image.length; i++){
     }
 }
 
+
+
 if (!(localStorage.getItem("number_in_cart"))){
     localStorage.setItem("number_in_cart",0)
     number_in_cart.textContent = localStorage.getItem("number_in_cart")
