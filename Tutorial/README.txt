@@ -1,6 +1,6 @@
 Github URL: https://github.com/trungluong0806/lazada.git
 
-install the following package: multer, session, nodemon, body-parser, bcryptjs 
+install the following package: express, multer, session, nodemon, body-parser, bcryptjs 
 
 User Credentials:
 Customer: username - Trung Kumiko password-Lacussaber12345@@@
