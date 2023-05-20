@@ -160,23 +160,14 @@ const Shipper = mongoose.model('Shipper', shipperSchema)
 
 
 
-
-
-
+// Registration Page
 app.get('/register', (req, res) =>{
     res.render('register.ejs')
 })
-
-app.get('/', (req, res) =>{
-    req.session.destroy()
-     res.render('login.ejs')
- }) 
 app.get("/register_error", (request, response) =>{
     response.render("register_error.ejs", {error: "Username already exists"})
     
 })
-
-
 
 app.post('/register', upload.single("image"), async(request, response) =>{
     const public = "public"
@@ -227,6 +218,113 @@ app.post('/register', upload.single("image"), async(request, response) =>{
     
 
 })
+// Registration Page
+
+
+// Login Page
+app.get('/', (req, res) =>{
+    req.session.destroy()
+     res.render('login.ejs')
+ }) 
+ app.post("/",(request,response)=>{
+    const incorrect_username = 'Incorrect Username. Please enter again'
+    const Incorrect_password = 'Incorrect Password. Please enter again'
+    const input_info = request.body
+    if (input_info.action === "Vendor"){
+        Vendor.findOne({username: input_info.username}).then(async (check) =>{
+            if (check) {
+                if (await bcrypt.compare(input_info.password, check.password)){
+                    request.session.user = check;
+                    request.session.authorized = true;
+                    response.render("Vendor_Account.ejs", {info: check})
+                }
+
+                else{
+                    
+                    response.render("log_in_error.ejs", {error: Incorrect_password})
+                        
+                    
+                }
+            }
+            else {
+                
+                response.render("log_in_error.ejs", {error: incorrect_username})
+                    
+                
+            }
+            
+            
+            
+            })}
+        
+        else if (input_info.action === "Shipper") {
+            Shipper.findOne({username: input_info.username}).then(async (check) =>{
+
+                if (check) {
+                    if (await bcrypt.compare(input_info.password, check.password)){
+                        console.log(true)
+                        request.session.user = check;
+                        request.session.authorized = true;
+                        response.render("Shipper_Account.ejs", {info: check})
+                    }
+
+                    else{
+                        
+                        response.render("log_in_error.ejs", {error: Incorrect_password})
+                            
+                        
+                    }
+                }
+                else{
+                    
+                    response.render("log_in_error.ejs", {error: incorrect_username})
+                        
+                    
+                }
+                })
+            }
+                
+                
+        
+
+        else{
+            User.findOne({username: input_info.username}).then(async (check) =>{
+                if (check) {
+                    
+                    if (await bcrypt.compare(input_info.password, check.password)){
+                        request.session.user = check;
+                        request.session.authorized = true;
+                        Order.find({Customer_id: check._id}).then((Order)=>{
+                            for (let i=0; i<Order.length; i++){
+                                order_code = Order[i].Customer_id;
+                                order_code = order_code.substring(0,4)
+                                Order[i].Customer_id = order_code
+                            }
+                        response.render("Customer_Account.ejs", {Users: check , Orders: Order}) 
+                        })
+                    }
+    
+                    else{
+                      
+                        response.render("log_in_error.ejs", {error: Incorrect_password})
+                           
+                    
+                    }
+                }
+                else{
+                
+                    response.render("log_in_error.ejs", {error: incorrect_username})
+                        
+                
+                }
+                })
+            }
+        })
+
+// Login Page
+
+
+
 /* Vendor Pages Start */
 
 app.get("/add", async(request,response)=>{
@@ -498,6 +596,12 @@ app.post("/AdminDelivery", async (request, response)=>{
 
 /* Shipper Page End */
 
+
+
+
+
+
+
 /* Customer Page Starts  */
 
 app.post("/myCustomerAccount", upload.single("image"), async (request, response) =>{
@@ -625,100 +729,6 @@ app.post(`/shoppingCart`,async (request, response)=>{
 )
 
 
-app.post("/",(request,response)=>{
-    const incorrect_username = 'Incorrect Username. Please enter again'
-    const Incorrect_password = 'Incorrect Password. Please enter again'
-    const input_info = request.body
-    if (input_info.action === "Vendor"){
-        Vendor.findOne({username: input_info.username}).then(async (check) =>{
-            if (check) {
-                if (await bcrypt.compare(input_info.password, check.password)){
-                    request.session.user = check;
-                    request.session.authorized = true;
-                    response.render("Vendor_Account.ejs", {info: check})
-                }
-
-                else{
-                    
-                    response.render("log_in_error.ejs", {error: Incorrect_password})
-                        
-                    
-                }
-            }
-            else {
-                
-                response.render("log_in_error.ejs", {error: incorrect_username})
-                    
-                
-            }
-            
-            
-            
-            })}
-        
-        else if (input_info.action === "Shipper") {
-            Shipper.findOne({username: input_info.username}).then(async (check) =>{
-
-                if (check) {
-                    if (await bcrypt.compare(input_info.password, check.password)){
-                        console.log(true)
-                        request.session.user = check;
-                        request.session.authorized = true;
-                        response.render("Shipper_Account.ejs", {info: check})
-                    }
-
-                    else{
-                        
-                        response.render("log_in_error.ejs", {error: Incorrect_password})
-                            
-                        
-                    }
-                }
-                else{
-                    
-                    response.render("log_in_error.ejs", {error: incorrect_username})
-                        
-                    
-                }
-                })
-            }
-                
-                
-        
-
-        else{
-            User.findOne({username: input_info.username}).then(async (check) =>{
-                if (check) {
-                    
-                    if (await bcrypt.compare(input_info.password, check.password)){
-                        request.session.user = check;
-                        request.session.authorized = true;
-                        Order.find({Customer_id: check._id}).then((Order)=>{
-                            for (let i=0; i<Order.length; i++){
-                                order_code = Order[i].Customer_id;
-                                order_code = order_code.substring(0,4)
-                                Order[i].Customer_id = order_code
-                            }
-                        response.render("Customer_Account.ejs", {Users: check , Orders: Order}) 
-                        })
-                    }
-    
-                    else{
-                      
-                        response.render("log_in_error.ejs", {error: Incorrect_password})
-                           
-                    
-                    }
-                }
-                else{
-                
-                    response.render("log_in_error.ejs", {error: incorrect_username})
-                        
-                
-                }
-                })
-            }
-        })
 
 
 
@@ -931,39 +941,9 @@ app.get("/:id", async (request,response)=>{
                         }
                         
                         
-                    })
+    })
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+    
             
             app.get("/aboutus", async (request,response)=>{
                 const check = await User.findOne({_id: request.session.user._id})
