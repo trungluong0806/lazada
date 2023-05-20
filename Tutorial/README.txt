@@ -7,7 +7,7 @@ Shipper:
             Administrator: Trung Kumik password - Lacussaber12345@@@
             Delivery Man: Kumiko 819 - password - Lacussaber080699@@@
 
-To run the application, run this command code node index.js. If error occurs, line comment the whole index.js file starting from the registration part (I have marked where each part starts and ends). Run app.get("/", (request, response) => response.send("Hello World")), then uncomment the file again block by block starting from the log in part. The problem usually occurs when different wifi trying to access the database or run the server. Just do the solution above and you should be able to access the app
+To run the application, run this command code node index.js. If error occurs, line comment the whole index.js file starting from the registration part (I have marked where each part starts and ends). Run app.get("/", (request, response) => response.send("Hello World")), then uncomment the file again block by block starting from the log in part. The problem usually occurs when different wifis try to access the database or run the server. the solution above should help you access the app
 
 To log in, go to this URL: localhost:3500. After logging in, you will be redirected to my account pages. on these pages, you can update profile image and personal detail. For customers, they can see their orders by clicking on the my order button. URL of account pages:
         localhost:3500/myCustomerAccount
