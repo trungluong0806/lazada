@@ -20,7 +20,7 @@ const quantity_selector = document.getElementById("quantity_selector")
 const main = document.getElementById("main")
 const Order_id = Pname.getAttribute("class")
 const inventory =document.getElementById("inventory")
-const checkout_buttons = document.querySelectorAll(".addtocart")
+const buynow = document.getElementById("buynow")
 const number_in_cart = document.getElementById("number_in_cart")
 const addCart = document.getElementById("addCart")
 const image_navigation = document.getElementById("image_navigation")
@@ -41,15 +41,20 @@ addCart.addEventListener("click", function(){
     item_number = item_number +1
     localStorage.setItem("number_in_cart_application_web_Development", item_number)
     number_in_cart.textContent = localStorage.getItem("number_in_cart_application_web_Development")
+   
+    
+
 })
 
 if (inventory.textContent==='0'){
-    for (let i=0; i < checkout_buttons.length; i++ ){
-        checkout_buttons[i].disabled = true
-        checkout_buttons[i].style.backgroundColor = "grey"
-        checkout_buttons[i].style.color = "black"
-    }
+    addCart.disabled=true
+    buynow.disabled=true
+    addCart.style.color="black"
+    buynow.style.background="none"
+    addCart.style.background="none"
 }
+
+
 
 if (main_image.naturalHeight < main_image.naturalWidth){
     main_image.style.width="100%"
