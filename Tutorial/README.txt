@@ -15,7 +15,7 @@ To log in, go to this URL: localhost:3500. After logging in, you will be redirec
         localhost:3500/myShipperAccount
         localhost:3500/main_page
         localhost:3500/viewmyproduct
-        localahost:3500/shipping_management
+        localhost:3500/shipping_management
         localhost:3500/shoppingCart
 
 Instruction for Vendor: To open the dedicated product adding page (which is not necessary as we incorporate product adding function to the product view page), open localhost:3500/add
