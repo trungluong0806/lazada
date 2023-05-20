@@ -262,7 +262,6 @@ app.get('/', (req, res) =>{
 
                 if (check) {
                     if (await bcrypt.compare(input_info.password, check.password)){
-                        console.log(true)
                         request.session.user = check;
                         request.session.authorized = true;
                         response.render("Shipper_Account.ejs", {info: check})
@@ -515,10 +514,8 @@ app.get("/myShipperAccount", async (request, response)=>{
 app.get("/shipping_management", async (request,response)=>{
     if (request.session.authorized){
         const check = await Shipper.findOne({_id: request.session.user._id})
-        console.log(check)
         if (check){
             if (check.Role === "Admin"){
-                console.log("true")
                 const Orders = await Order.find({city: request.session.user.Hub, orderStatus: "Active"})
                 const Shippers = await Shipper.find({Role: "Shipper", Hub: request.session.user.Hub})
                 response.render("Shipper_administration.ejs", {result: Orders, Shippers: Shippers})
