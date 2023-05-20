@@ -1,3 +1,5 @@
+Github URL: https://github.com/trungluong0806/lazada.git
+
 User Credentials:
 Customer: username - Trung Kumiko password-Lacussaber12345@@@
 Vendor: username - Trung Kumik password - Lacussaber12345@@@
